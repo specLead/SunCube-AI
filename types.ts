@@ -1,0 +1,420 @@
+
+
+export type MetricKey = 'livePower' | 'todayEnergy' | 'monthlyEarnings' | 'uptime';
+
+export type UserRole = 'admin' | 'technician' | 'customer';
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  plan: string;
+  phone?: string;
+  organization?: string;
+  siteName?: string;
+}
+
+export interface KPI {
+  id: string;
+  label: string;
+  value: number;
+  unit: string;
+  trend: number; // percentage
+  trendUp: boolean;
+  metricKey?: MetricKey;
+  lastUpdated?: string;
+}
+
+export interface WeatherData {
+  condition: 'Sunny' | 'Cloudy' | 'Rain' | 'Storm';
+  temp: number;
+  irradiance: number; // W/m2
+  expectedGen: number; // kWh
+  actualGen: number; // kWh
+  forecast: { day: string; temp: number; icon: 'Sun'|'Cloud'|'Rain' }[];
+  aiPrediction: { hour: string; kwh: number }[];
+}
+
+export interface Alert {
+  id: string;
+  type: 'Critical' | 'Warning' | 'Info';
+  message: string;
+  timestamp: string;
+  assignedTo?: string;
+  acknowledged?: boolean;
+}
+
+export interface MeterReading {
+  start: number;
+  end: number;
+  delta: number;
+}
+
+export interface FeeBreakdown {
+  serviceFee: number;
+  networkFee: number;
+  tax: number;
+}
+
+export interface Transaction {
+  id: string;
+  date: string;
+  kwh: number;
+  tariff: number;
+  amount: number;
+  txHash: string;
+  status: 'Pending' | 'Completed' | 'Failed';
+  // Extended Details
+  siteName?: string;
+  blockHeight?: number;
+  gasFee?: number;
+  validator?: string;
+  exportStart?: string;
+  exportEnd?: string;
+  peakType?: 'Peak' | 'Off-Peak';
+  aiVariance?: number; // percentage
+  tariffClass?: 'Dynamic' | 'Fixed';
+  subtotal?: number;
+  aiEstimated?: number;
+  tax?: number;
+  settlementBatchId?: string;
+  co2Saved?: number;
+  verificationStage?: 'Verified' | 'Pending' | 'Failed';
+  contractVersion?: string;
+  confirmations?: number;
+  network?: 'Mainnet' | 'Testnet';
+  
+  // New fields for upgrade
+  meterReadings?: {
+    import: MeterReading;
+    export: MeterReading;
+  };
+  fees?: FeeBreakdown;
+  invoiceId?: string;
+  ledgerProofSnippet?: string;
+}
+
+export interface Invoice {
+  id: string;
+  customerId: string;
+  siteId: string;
+  periodFrom: string;
+  periodTo: string;
+  amount: number;
+  units: number;
+  status: 'Draft' | 'Sent' | 'Paid' | 'Void';
+  pdfUrl?: string;
+  createdAt: string;
+}
+
+export interface LedgerRecord {
+  txId: string;
+  timestamp: string;
+  dataHash: string;
+  invoiceId?: string;
+  verified: boolean;
+  metadata: string; // e.g., "Block #12345"
+  
+  // New Audit Fields
+  network?: string;
+  confirmations?: number;
+  blockHeight?: number;
+  verifierNode?: string;
+  status?: 'Verified' | 'Pending' | 'Failed';
+}
+
+export interface PaymentSummary {
+  totalRevenue: number;
+  totalKwhSold: number;
+  pendingPayouts: number;
+  lastPaymentDate: string;
+  nextPayoutDate: string;
+  verifiedOnLedger: boolean;
+}
+
+export interface PayoutForecast {
+  predictedUnits: number;
+  confidence: number;
+  bestSellWindow: string;
+  estimatedPayout: number;
+  recommendedTariff: string;
+}
+
+export interface RevenueForecast {
+    next30Days: number;
+    expectedVolume: number; // kWh
+    weatherImpactScore: number; // 0-100
+    predictedBand: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'model';
+  text: string;
+  isThinking?: boolean;
+}
+
+export interface TicketAttachment {
+    name: string;
+    url: string;
+    type?: string;
+}
+
+export interface Ticket {
+  id: string;
+  title: string;
+  status: 'Open' | 'In Progress' | 'Resolved' | 'Pending';
+  priority: 'Low' | 'Medium' | 'Critical';
+  category: string;
+  createdAt: string;
+  description?: string;
+  assignedTo?: string;
+  eta?: string;
+  // Extended Details
+  diagnosis?: {
+    confidence: number;
+    rootCause: string;
+    partsNeeded: string[];
+  };
+  timeline?: { status: string; date: string; note?: string }[];
+  lastTelemetry?: string;
+  
+  // New fields for dispute linking
+  linkedTransactionId?: string;
+  linkedInvoiceId?: string;
+  attachments?: TicketAttachment[];
+}
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  read: boolean;
+  timestamp: string;
+  type: 'alert' | 'info' | 'success';
+}
+
+export interface UserPreferences {
+  notifications: {
+    criticalAlerts: boolean;
+    maintenanceAlerts: boolean;
+    dailyReport: boolean;
+    weeklySummary: boolean;
+    monthlyStatement: boolean;
+    billing: {
+      invoiceIssued: boolean;
+      paymentCredited: boolean;
+      payoutProcessed: boolean;
+      disputeUpdates: boolean;
+    };
+    ai: {
+      forecast: boolean;
+      tariffChange: boolean;
+      weatherImpact: boolean;
+    };
+  };
+  display: {
+    // Theme removed per requirements
+    largeText: boolean;
+  };
+  charts: {
+    autoRefresh: boolean;
+    animationLevel: 'none' | 'minimal' | 'full';
+    preferredUnits: 'kWh' | 'MWh';
+  };
+  billing: {
+    // autoGenerateDraftInvoices removed per requirements
+    autoSettleSmallPayouts: boolean;
+    consolidatedMonthlyInvoice: boolean;
+  };
+}
+
+export interface UserSession {
+  id: string;
+  device: string;
+  ip: string;
+  lastActive: string;
+  current: boolean;
+}
+
+// --- NEW TYPES FOR UPGRADE ---
+
+export interface AIInsight {
+  id: string;
+  title: string;
+  confidence: number;
+  rootCause: string;
+  recommendation: string;
+  details: string;
+}
+
+export interface DeviceHealth {
+  id: string;
+  name: string;
+  type: 'Inverter' | 'MPPT' | 'Battery' | 'Panel';
+  status: 'OK' | 'Warning' | 'Fault';
+  temp: number;
+  load: number;
+  lastUpdate: string;
+}
+
+export interface MaintenanceAlert {
+  id: string;
+  component: string;
+  issue: string;
+  probability: number;
+  daysToFailure: number;
+  trend: number[];
+  acknowledged?: boolean;
+}
+
+export interface SiteDetail {
+  id: string;
+  name: string;
+  health: number; // 0-100
+  todayEnergy: number;
+  lastTelemetry: string;
+  activeFaults: number;
+  trend: number[];
+}
+
+export interface DeviceTelemetry {
+  deviceId: string;
+  timestamp: string;
+  firmwareVersion: string;
+  model: string;
+  temperature: number;
+  voltageDC: number;
+  voltageAC: number;
+  efficiency: number;
+  errorCodes: string[];
+  recentLogs: string[];
+}
+
+export interface DiagnosticReport {
+  id: string;
+  deviceId: string;
+  status: 'Running' | 'Completed' | 'Failed';
+  timestamp: string;
+  checks: { name: string; status: 'Pass' | 'Fail' | 'Warn'; message?: string }[];
+  summary: string;
+  recommendedAction?: string;
+}
+
+// --- METRIC DETAILS TYPES ---
+
+export interface MetricInsight {
+    text: string;
+    confidence: number;
+}
+
+export interface LivePowerDetails {
+    type: 'livePower';
+    currentKW: number;
+    trend1m: number;
+    trend5m: number;
+    chartData: { time: string; kw: number }[];
+    devices: { name: string; kw: number; percent: number }[];
+    alerts: string[];
+    insight: MetricInsight;
+}
+
+export interface TodayEnergyDetails {
+    type: 'todayEnergy';
+    totalKwh: number;
+    deltaYesterday: number;
+    chartData: { hour: string; kwh: number }[];
+    peakWindow: { start: string; end: string; tariff: number };
+    topContributors: { name: string; kwh: number }[];
+    insight: MetricInsight;
+}
+
+export interface MonthlyEarningsDetails {
+    type: 'monthlyEarnings';
+    earnings: number;
+    pending: number;
+    chartData: { day: string; amount: number }[];
+    tariffs: { period: string; rate: number }[];
+    forecast: number;
+    insight: MetricInsight;
+}
+
+export interface UptimeDetails {
+    type: 'uptime';
+    uptimePercent: number;
+    lastChecked: string;
+    downtimeEvents: { date: string; duration: string; cause: string; mttr: string }[];
+    affectedDevices: string[];
+    healthScore: number;
+    insight: MetricInsight;
+}
+
+export type MetricDetails = LivePowerDetails | TodayEnergyDetails | MonthlyEarningsDetails | UptimeDetails;
+
+// --- MAP CLUSTER TYPES ---
+export interface ClusterNode {
+  id: string;
+  x: number;
+  y: number;
+  count: number;
+  status: 'ok' | 'warning';
+  subPoints?: { x: number; y: number; status: 'ok' | 'warning' | 'fault'; id: string }[];
+}
+
+// --- TARIFF TYPES ---
+export interface TimeOfUseRate {
+  start: string;
+  end: string;
+  rate: number;
+  label?: string;
+}
+
+export interface TariffFees {
+  taxPercent: number;
+  gridFee: number;
+  serviceFee: number;
+}
+
+export interface TariffStructure {
+  region: string;
+  currency: string;
+  baseRate: number;
+  touRates: TimeOfUseRate[];
+  fees: TariffFees;
+  upcomingChanges?: {
+    date: string;
+    estimatedIncrease: number; // percentage
+    details: string;
+  };
+}
+
+export interface Site {
+    id: string;
+    name: string;
+    location: string;
+    capacity: number;
+}
+
+export interface ExportJob {
+  jobId: string;
+  status: 'queued' | 'processing' | 'ready' | 'failed';
+  fileUrl?: string;
+  progress: number;
+}
+
+export interface ExportRequest {
+  type: 'transactions' | 'ledger' | 'invoices';
+  filters: any;
+  format: 'csv' | 'pdf';
+  siteId?: string;
+}
+
+export interface InvoiceDraft {
+  id: string;
+  amount: number;
+  units: number;
+  tariff: number;
+  periodFrom: string;
+  periodTo: string;
+}

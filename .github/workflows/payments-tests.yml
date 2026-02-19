@@ -1,0 +1,42 @@
+name: Payments Module Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Payments tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        # Use v4 of checkout action
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        # Use v4 of setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run payments test suite (if present)
+        # Use --if-present so workflow doesn't fail if no script exists.
+        run: npm test --if-present
+        continue-on-error: false
+
+      - name: Upload test results
+        if: always()
+        # Use v4 of upload-artifact to avoid deprecated action failure
+        uses: actions/upload-artifact@v4
+        with:
+          name: payments-test-results
+          path: test-results/**

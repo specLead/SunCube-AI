@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suncube AI Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              suncube: {
+                orange: "#FF7A18",
+                orangeGlow: "#FF7A1880",
+                dark: "#0B0C10",
+                card: "#15161A",
+                cyan: "#00F0FF",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            backgroundImage: {
+              "grid-pattern":
+                "linear-gradient(to right, #ffffff05 1px, transparent 1px), linear-gradient(to bottom, #ffffff05 1px, transparent 1px)",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #0b0c10;
+        color: #e5e5e5;
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0b0c10;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #ff7a18;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .holo-border {
+        position: relative;
+        overflow: hidden;
+      }
+      .holo-border::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 122, 24, 0.1),
+          transparent
+        );
+        transform: skewX(-20deg);
+        transition: left 0.5s;
+      }
+      .holo-border:hover::after {
+        left: 150%;
+        transition: left 0.7s ease-in-out;
+      }
+    </style>
+    <script type="module" src="/index.tsx"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://aistudiocdn.com/react@^19.2.0",
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+          "react/": "https://aistudiocdn.com/react@^19.2.0/",
+          "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+          "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+          "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+          "gsap": "https://aistudiocdn.com/gsap@^3.13.0",
+          "@testing-library/jest-dom": "https://aistudiocdn.com/@testing-library/jest-dom@^6.9.1",
+          "@testing-library/react": "https://aistudiocdn.com/@testing-library/react@^16.3.0",
+          "@jest/globals": "https://aistudiocdn.com/@jest/globals@^30.2.0",
+          "dotenv": "https://aistudiocdn.com/dotenv@^17.2.3",
+          "zod": "https://aistudiocdn.com/zod@^4.1.13",
+          "vitest": "https://aistudiocdn.com/vitest@^4.0.15",
+          "bcrypt": "https://aistudiocdn.com/bcrypt@^6.0.0",
+          "fastify-plugin": "https://aistudiocdn.com/fastify-plugin@^5.1.0",
+          "fastify-type-provider-zod": "https://aistudiocdn.com/fastify-type-provider-zod@^6.1.0",
+          "fastify": "https://aistudiocdn.com/fastify@^5.6.2",
+          "@fastify/cors": "https://aistudiocdn.com/@fastify/cors@^11.1.0",
+          "@fastify/helmet": "https://aistudiocdn.com/@fastify/helmet@^13.0.2",
+          "bullmq": "https://aistudiocdn.com/bullmq@^5.65.1",
+          "@aws-sdk/client-s3": "https://aistudiocdn.com/@aws-sdk/client-s3@^3.943.0",
+          "aws-lambda": "https://aistudiocdn.com/aws-lambda@^1.0.7",
+          "@aws-sdk/s3-request-presigner": "https://aistudiocdn.com/@aws-sdk/s3-request-presigner@^3.943.0",
+          "knex": "https://aistudiocdn.com/knex@^3.1.0",
+          "@fastify/jwt": "https://aistudiocdn.com/@fastify/jwt@^10.0.0"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

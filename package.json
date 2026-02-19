@@ -1,0 +1,43 @@
+{
+  "name": "suncube-ai-customer-portal",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "lucide-react": "^0.555.0",
+    "@google/genai": "^1.30.0",
+    "recharts": "^3.5.1",
+    "gsap": "^3.13.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@jest/globals": "^30.2.0",
+    "dotenv": "^17.2.3",
+    "zod": "^4.1.13",
+    "vitest": "^4.0.15",
+    "bcrypt": "^6.0.0",
+    "fastify-plugin": "^5.1.0",
+    "fastify-type-provider-zod": "^6.1.0",
+    "fastify": "^5.6.2",
+    "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "^13.0.2",
+    "bullmq": "^5.65.1",
+    "@aws-sdk/client-s3": "^3.943.0",
+    "aws-lambda": "^1.0.7",
+    "@aws-sdk/s3-request-presigner": "^3.943.0",
+    "knex": "^3.1.0",
+    "@fastify/jwt": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
